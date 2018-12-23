@@ -1,0 +1,25 @@
+{
+  "name": "discord-rooms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deathbeam/discord-rooms.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deathbeam/discord-rooms/issues"
+  },
+  "homepage": "https://github.com/deathbeam/discord-rooms#readme",
+  "dependencies": {
+    "multimap": "^1.0.2",
+    "redis": "^2.8.0",
+    "ws": "^6.1.2"
+  }
+}
