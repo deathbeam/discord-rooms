@@ -30,6 +30,10 @@ wss.on('connection', function connection(ws) {
     });
 });
 
+wss.on('error', function (e) {
+    console.error(e)
+})
+
 // Handle redis subscriptions
 sub.on('pmessage', function (group, channel, message) {
     channel = channel.substr(channel.indexOf('.') + 1);
