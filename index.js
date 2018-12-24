@@ -1,10 +1,9 @@
 const redis = require('redis');
-const MultiMap = require('multimap');
 const WebSocket = require('ws');
 
 // Initialize WebSocket server
 const wss = new WebSocket.Server({
-    port: process.env.PORT
+    port: process.env.PORT || 1337
 });
 
 // Initialize connection to redis server
@@ -18,14 +17,19 @@ const sub = redis.createClient(redisPort, redisHost);
 sub.auth(redisPassword);
 
 // Initialize in-memory socket storage
-const sockets = new MultiMap();
+const sockets = {};
 
 // Handle incoming WSS connections
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(data) {
         console.log('received ' + data);
         const message = JSON.parse(data);
-        sockets.set(message.group, ws);
+
+        if (!sockets[message.group]) {
+            sockets[message.group] = {}
+        }
+
+        sockets[message.group][message.uuid] = ws
         pub.publish('group.' + message.group, data);
     });
 });
@@ -38,12 +42,12 @@ wss.on('error', function (e) {
 sub.on('pmessage', function (group, channel, message) {
     channel = channel.substr(channel.indexOf('.') + 1);
     console.log('sub ' + group + '>' + channel + ': ' + message);
-    const clients = sockets.get(channel);
+    const clients = sockets[channel];
 
     if (clients) {
-        clients.forEach(client => {
-            client.send(message);
-        });
+        for (let key in clients) {
+            clients[key].send(message);
+        }
     }
 });
 
