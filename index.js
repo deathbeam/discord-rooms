@@ -35,7 +35,7 @@ wss.on('connection', function connection(ws) {
             'uuid': message.uuid,
             'group': message.group,
             'type': 'COUNT',
-            'message': Object.keys(sockets).length
+            'message': Object.keys(sockets[message.group]).length
         }));
     });
 });
