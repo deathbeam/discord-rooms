@@ -31,6 +31,12 @@ wss.on('connection', function connection(ws) {
 
         sockets[message.group][message.uuid] = ws
         pub.publish('group.' + message.group, data);
+        pub.publish('group.' + message.group, JSON.stringify({
+            'uuid': message.uuid,
+            'group': message.group,
+            'type': 'COUNT',
+            'message': Object.keys(sockets).length
+        }));
     });
 });
 
