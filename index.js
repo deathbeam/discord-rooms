@@ -4,7 +4,7 @@ const WebSocket = require('ws');
 
 // Initialize WebSocket server
 const wss = new WebSocket.Server({
-    port: 1337
+    port: process.env.PORT
 });
 
 // Initialize connection to redis server
