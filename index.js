@@ -26,7 +26,7 @@ wss.on('connection', function connection(ws) {
         console.log('received ' + data);
         const message = JSON.parse(data);
         sockets.set(message.group, ws);
-        pub.publish('group.' + message.group, message);
+        pub.publish('group.' + message.group, data);
     });
 });
 
